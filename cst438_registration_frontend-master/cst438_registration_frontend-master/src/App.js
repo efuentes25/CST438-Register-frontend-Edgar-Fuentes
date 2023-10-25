@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 import StudentHome from './components/StudentHome';
 import AdminHome from './components/AdminHome';
 import ShowSchedule from './components/ShowSchedule';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
             &nbsp;|&nbsp;&nbsp;
             <Link to="/admin">Admin</Link>{' '}
             <Switch>
-              <Route exact path="/" component={StudentHome} />
+              <Route exact path="/" component={Login} />
+              <Route exact path="/studentHome" component={StudentHome} />
               <Route path="/schedule" component={ShowSchedule} />
               <Route path="/admin" component={AdminHome} />
               <Route render={ () => <h1>Page not found</h1>} />
