@@ -24,6 +24,7 @@ const ShowSchedule = () => {
     const termId = params.get("termId"); 
     const [courses, setCourses] = useState([]);  // list of courses
     const [message, setMessage] = useState(' ');  // status message
+    const jtwToken = sessionStorage.getItem('jwt');
 
     useEffect(() => {
         // called once after intial render
@@ -37,7 +38,8 @@ const ShowSchedule = () => {
     const fetchCourses = (termId) => {
         const {year, semester} = SEMESTERS[termId];
         console.log("fetchCourses "+year+" "+semester);
-        fetch(`${SERVER_URL}/schedule?year=${year}&semester=${semester}`)
+
+        fetch(`${SERVER_URL}/schedule?year=${year}&semester=${semester}`, { headers: { 'Authorization': jtwToken, }, })
         .then((response) => { return response.json(); } )
         .then((data) => { setCourses(data); })
         .catch((err) =>  { 
@@ -54,7 +56,8 @@ const ShowSchedule = () => {
         console.log("start addCourse"); 
         fetch(`${SERVER_URL}/schedule/course/${course_id}`,
         { 
-            method: 'POST', 
+            method: 'POST',
+             headers: { 'Authorization': jtwToken, }, 
         })
         .then(res => {
             if (res.ok) {
@@ -84,6 +87,7 @@ const ShowSchedule = () => {
             fetch(`${SERVER_URL}/schedule/${enrollment_id}`,
             {
                 method: 'DELETE',
+                headers: { 'Authorization': jtwToken, },
             }
             )
         .then(res => {
